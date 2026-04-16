@@ -1,27 +1,24 @@
 import http from 'k6/http';
 import { check } from 'k6';
 
-export function setup() {
+export function fazerLogin(baseUrl) {
     const loginPayload = JSON.stringify({
-        "email": "fulano@qa.com",
-        "password": "teste",
+        email: 'fulano@qa.com',
+        password: 'teste',
     });
 
-    const loginHeaders = { 'Content-Type': 'application/json' };
-    const loginRes = http.post('http://localhost:3000/login', loginPayload, { headers: loginHeaders });
+    const loginHeaders = {
+        'Content-Type': 'application/json',
+    };
+
+    const loginRes = http.post(`${baseUrl}/login`, loginPayload, { headers: loginHeaders });
+
     check(loginRes, {
         'login successfully': (r) => r.status === 200,
     });
 
     const authToken = loginRes.json('authorization');
     console.log(`Bearer token: ${authToken}`);
-    return { authToken };
-}
 
-export default function (data) {
-    const protectedHeaders = {
-        'Content-Type': 'application/json',
-        'Authorization': data.authToken,
-    };
-    const res = http.get('http://localhost:3000/produtos', { headers: protectedHeaders });
+    return authToken;
 }
