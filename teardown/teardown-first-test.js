@@ -7,7 +7,7 @@ export const options = {
 };
 
 export function setup() {
-    console.log('Iniciando "Teste')
+    console.log('Test execution started')
     return { baseUrl: 'http://localhost:3000' }
 }
 
@@ -15,7 +15,7 @@ export default function (data) {
     const res = http.get(`${data.baseUrl}/produtos`);
 
     console.log(`Status code: ${res.status}`);
-    console.log(`Trecho da resposta: ${res.body.substring(0, 100)}`)
+    console.log(`Payload response: ${res.body.substring(0, 100)}`)
 
 
     check(res, {
@@ -25,5 +25,5 @@ export default function (data) {
 }
 
 export function teardown() {
-    console.log('Finalizando Teste')
+    console.log('Test execution completed')
 }
